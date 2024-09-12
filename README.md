@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a full-stack direct booking site I built for Sapphire By The Sea, a beachhouse short-term rental in Crystal Beach, TX.
+
+I built this project with Next.js 14 (App Router), React, TypeScript, Material UI, Stripe, Node.js, and Express.
+
+The frontend is hosted on Vercel with SSR and Static Generation optimizations for improved SEO and rendering performance, and the backend is hosted on Render.
+
 
 ## Getting Started
 
