@@ -1,0 +1,72 @@
+.NavbarItems {
+  display: flex;
+  justify-content: flex-start; // Align items to the start (left)
+  align-items: center;
+  padding: 10px 5%;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  height: 60px; // Maintain consistent height
+  transform: translateX(-50%);
+  z-index: 20;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.navbarLogo {
+  flex-shrink: 0; // Prevents logo from shrinking
+  margin-right: 140px; // Space between logo and menu items
+}
+
+.menuIcons {
+  display: none; // Hidden on larger screens
+}
+
+.navMenu {
+  display: flex;
+  list-style: none;
+  gap: 20px; // Increased spacing between links
+  margin-left: auto; // Pushes the menu to the right side
+}
+
+.navLinks {
+  text-decoration: none;
+  color: #0f52ba;
+  font-size: 0.9rem;
+  font-weight: 500; // Slightly lighter font weight
+  padding: 10px 15px; // More padding for a button-like appearance
+  border-radius: 20px; // Rounded edges
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+
+  &:hover {
+    background-color: #f0f0f0; // Subtle hover effect
+    color: #0c3a8a; // Darker text color on hover
+  }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 850px) {
+  .NavbarItems {
+    width: 100%;
+    padding: 10px 5%;
+    border-radius: 0;
+    top: 0;
+  }
+
+  .menuIcons {
+    display: block; // Show menu icon on smaller screens
+    font-size: 1.5rem; // Larger icon size
+    color: #0f52ba; // Icon color
+  }
+}

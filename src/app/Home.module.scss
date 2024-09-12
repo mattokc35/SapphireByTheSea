@@ -1,0 +1,86 @@
+// General styling for the site content
+.siteContent {
+  width: auto; // Full width layout
+  display: flex; // Enable flexbox
+  flex-direction: column; // Arrange items in a column
+  align-items: center; // Center-align items horizontally
+  justify-content: flex-start; // Start aligning items from the top
+  padding: 10px; // Add padding for spacing
+}
+
+// Vertical column layout
+.verticalColumn {
+  display: flex; // Enable flexbox
+  flex-direction: column; // Stack items vertically
+  align-items: center; // Center items horizontally
+  width: 100%; // Full width
+}
+
+// Section styles
+.bookingSection,
+.videoSection,
+.reviewsSection,
+.aboutSection,
+.contactForm {
+  width: 100%; // Full width for sections
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; // Space between sections
+}
+
+// Divider styles
+.divider {
+  width: 100%; // Full width
+  height: 2px; // Divider height
+  background-color: #ccc; // Divider color
+  margin: 20px 0; // Vertical margins
+}
+
+// Review section styles
+.reviewsCarousel {
+  width: 100%; // Full width for carousel
+  margin: 20px 0; // Space above and below
+}
+
+// Booking section style
+.bookingSection {
+  justify-content: center; // Center the booking form
+  width: 100%; // Full width
+}
+
+// Contact form style
+.contactForm {
+  justify-content: center; // Center the contact form
+  width: 100%; // Full width
+}
+
+// About section style
+.aboutSection {
+  width: 100%; // Full width for about section
+}
+
+// Image gallery style
+.imageGallery {
+  width: 100%; // Full width for image gallery
+  margin: 20px 0; // Space around the gallery
+}
+
+// YouTube embed style
+.videoSection {
+  width: 100%; // Full width for video section
+  margin: 20px 0; // Space around the video
+}
+
+.introImgSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%; // Ensure the section takes full width
+
+  h4 {
+    width: 80%; // Adjust this value as needed
+    margin: 20px auto; // Center the text within the section
+    text-align: center;
+  }
+}

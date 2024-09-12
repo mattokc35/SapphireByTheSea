@@ -1,0 +1,69 @@
+.checkout-info-container {
+  background-color: #f9f9f9; /* Light background for contrast */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Add padding for spacing */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 20px; /* Spacing below the container */
+  text-align: center; /* Center align all text */
+}
+
+.checkout-info-title {
+  font-size: 1.5rem; /* Larger title font size */
+  margin-bottom: 10px; /* Space below the title */
+  color: #333; /* Dark text color */
+}
+
+.guest-instructions {
+  font-size: 1rem; /* Standard font size for consistency */
+  color: #555; /* Slightly lighter text color */
+  margin-bottom: 10px; /* Space below each element */
+}
+
+.total-price-text {
+  font-size: 1.2rem; /* Slightly larger font for price */
+  font-weight: bold; /* Bold text for emphasis */
+  color: #d9534f; /* Distinct color for total price */
+}
+
+.price-breakdown {
+  color: #0f52ba; /* Standard color for links */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-decoration: underline; /* Underlined text */
+}
+
+.price-breakdown:hover {
+  color: #0056b3; /* Darker color on hover */
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  padding: 10px;
+}
+
+.button-container button {
+  width: 40%;
+  max-width: 300px;
+  margin: 5px;
+  padding: 10px;
+}
+
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-container button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+.MuiTableCell-body {
+  padding: 16px;
+  text-align: center !important; /* Ensure table cells are centered */
+}

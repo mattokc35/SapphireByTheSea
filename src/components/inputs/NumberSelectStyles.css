@@ -1,0 +1,8 @@
+.number-select-component {
+  position: relative;
+  padding-top: 0px;
+  padding-bottom: 15px;
+}
+.number-select-label {
+  font-size: 100%;
+}

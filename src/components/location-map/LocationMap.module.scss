@@ -1,0 +1,10 @@
+.mapContainer {
+  height: 54vh;
+  width: 67%;
+  margin: auto;
+
+  @media screen and (max-width: 650px) {
+    width: 90%;
+    height: 40vh;
+  }
+}
