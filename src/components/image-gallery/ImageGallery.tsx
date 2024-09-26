@@ -18,6 +18,7 @@ const ImageGallery = () => {
             sx={{
               borderRadius: 2,
               overflow: "hidden",
+              maxHeight: "300px",
               transition: "transform 0.3s, box-shadow 0.3s",
               cursor: "pointer",
               "&:hover": {
@@ -38,7 +39,7 @@ const ImageGallery = () => {
               sx={{
                 objectFit: "cover",
                 width: "100%",
-                height: "100%", // Make the image fill the card completely
+                height: "100%",
                 borderRadius: 0, // Remove any border-radius to ensure the image covers the card edges
               }}
             />
