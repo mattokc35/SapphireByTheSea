@@ -15,8 +15,8 @@ const AmenitiesTable: React.FC = () => {
               transition: "0.3s",
               borderRadius: "10px",
               "&:hover": {
-                transform: "scale(1.03)",
-                boxShadow: 20,
+                transform: "scale(1.01)",
+                boxShadow: 5,
               },
             }}
           >
