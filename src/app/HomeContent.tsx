@@ -7,6 +7,7 @@ import ImageGallery from "@/components/image-gallery/ImageGallery";
 import Intro from "@/components/intro/Intro";
 import FeatureCards from "@/components/feature-cards/FeatureCards";
 import { features } from "@/constants/constants";
+import About from "@/components/about/About";
 
 export default function HomeContent() {
   return (
@@ -21,19 +22,7 @@ export default function HomeContent() {
       <div className={styles.siteContent} role="main">
         <div className={styles.verticalColumn}>
           <div className={styles.introImgSection}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                fontWeight: "bold",
-                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)",
-                color: "#0f52ba",
-                textAlign: "center",
-              }}
-              aria-label="Welcome to Sapphire by the Sea"
-            >
-              Welcome to Sapphire by the Sea
-            </Typography>
+          <Divider showLines={true} title="Welcome to Sapphire By The Sea" />
             <Typography
               variant="body1"
               paragraph
@@ -42,7 +31,7 @@ export default function HomeContent() {
               aria-label="Description of the luxury beach house"
             >
               A luxury beach house in Crystal Beach, TX, located just a 5-minute
-              walk from the beach.
+              walk from the beach...
             </Typography>
 
             <ImageGallery />
@@ -115,6 +104,8 @@ export default function HomeContent() {
             </Typography>
 
             <LocationMap />
+            <Divider title="About The Host" />
+            <About/>
 
             <Divider title="Contact Us Today!" />
             <Box mb={1} sx={{ textAlign: "center" }}>
@@ -173,7 +164,9 @@ export default function HomeContent() {
                     Contact Us
                   </Button>
                 </MuiLink>
+               
               </Box>
+             
             </Box>
           </div>
         </div>

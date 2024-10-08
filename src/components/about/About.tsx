@@ -10,58 +10,54 @@ const About: React.FC = () => {
       flexDirection={{ xs: "column", md: "row" }}
       alignItems="center"
       justifyContent="center"
-      sx={{ padding: 2 }} // Add padding for better spacing
+      sx={{
+        padding: { xs: 2, md: 4 },
+        gap: { xs: 2, md: 4 }, // Space between image and text
+        textAlign: { xs: "center", md: "left" },
+      }}
     >
+      {/* Image Section */}
       <Box
         sx={{
           position: "relative",
-          borderRadius: "50%",
-          maxWidth: { xs: 150, md: 300 }, // Reduce image size on mobile
+          maxWidth: { xs: "100%", md: 400 }, // Adjust for better image width on large screens
           height: "auto",
-          marginBottom: { xs: 2, md: 0 },
-          boxShadow: 3,
-          transition: "transform 0.3s ease-in-out",
+          borderRadius: "8px", // Slight rounding for modern feel
           overflow: "hidden",
-          "&:hover": {
-            transform: "scale(1.03)",
-          },
+          marginBottom: { xs: 2, md: 0 }, // Space out image and text on mobile
         }}
       >
         <Image
           src={"/images/benanddeborah.webp"}
           alt="Host Profile"
           layout="responsive"
-          width={300} // Width of the image in pixels
-          height={300} // Height of the image in pixels
           objectFit="cover"
-          quality={100}
+          width={300}
+          height={300}
           priority
+          style={{
+            width: "50%",
+            height: "50%",
+            borderRadius: "8px", // Match the rounding
+          }}
         />
       </Box>
-      <Box
-        sx={{
-          marginLeft: { md: 3 },
-          textAlign: { xs: "center", md: "left" },
-          paddingX: { xs: 2, md: 0 }, // Add horizontal padding on mobile
-        }}
-      >
+
+      {/* Text Section */}
+      <Box sx={{ maxWidth: "600px" }}>
         <Typography
-          variant="h6"
-          component="h2"
-          sx={{
-            fontWeight: 600,
-            marginBottom: 1,
-            fontSize: { xs: "1.5rem", md: "1.75rem" }, // Adjust font size for mobile
-          }}
-        >
-          {hostName}
-        </Typography>
+                variant="h6"
+                gutterBottom
+                sx={{ fontWeight: "600" }}
+                aria-label="host-name"
+              >
+                {hostName}
+              </Typography>
         <Typography
           variant="body1"
           sx={{
-            fontWeight: 400,
-            lineHeight: 1.6,
-            fontSize: { xs: "0.9rem", md: "1rem" }, // Adjust font size for mobile
+            lineHeight: 1.8,
+            marginBottom: 2,
           }}
         >
           {hostBio}

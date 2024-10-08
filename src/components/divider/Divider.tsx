@@ -3,10 +3,11 @@ import { Divider as MuiDivider, Typography, Box } from "@mui/material";
 
 interface DividerProps {
   title?: string;
+  showLines?: boolean;
 }
 
 const Divider: FC<DividerProps> = React.forwardRef(
-  (props: DividerProps, ref: Ref<HTMLDivElement>) => {
+  ({title, showLines = true}: DividerProps, ref: Ref<HTMLDivElement>) => {
     return (
       <Box
         ref={ref}
@@ -18,15 +19,16 @@ const Divider: FC<DividerProps> = React.forwardRef(
           scrollMarginTop: "110px",
         }}
       >
-        <MuiDivider
+        {showLines && (<MuiDivider
           sx={{
             flexGrow: 1,
             borderColor: "rgba(13, 74, 154, 0.2)", // Subtle sapphire blue
             height: "1px",
             borderRadius: "2px",
           }}
-        />
-        {props.title && (
+        />)}
+
+        {title && (
           <Typography
             variant="subtitle1"
             sx={{
@@ -39,10 +41,11 @@ const Divider: FC<DividerProps> = React.forwardRef(
               whiteSpace: "nowrap",
             }}
           >
-            {props.title}
+            {title}
           </Typography>
         )}
-        <MuiDivider
+        {showLines && (
+          <MuiDivider
           sx={{
             flexGrow: 1,
             borderColor: "rgba(13, 74, 154, 0.2)", // Subtle sapphire blue
@@ -50,6 +53,8 @@ const Divider: FC<DividerProps> = React.forwardRef(
             borderRadius: "2px",
           }}
         />
+        )}
+        
       </Box>
     );
   }
