@@ -261,6 +261,7 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
               totalPrice={totalPrice}
               tax={tax}
               promoCode={promoCode}
+              petFee={props.petFee}
             />
       </div>
       <Typography
