@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,8 +13,8 @@ import {
 } from "../../../constants/constants";
 import "react-dates/lib/css/_datepicker.css";
 import { useRouter } from "next/navigation";
-import { bookingFormValidation } from "../../inputs/InputVerification";
 import GuestInfoPaymentPageModal from "@/components/modals/GuestInfoPaymentModal";
+import { bookingFormValidation } from "../../inputs/InputVerification";
 import { Button, Modal, Box, Typography } from "@mui/material";
 import moment, { Moment } from "moment";
 import { usePriceCalculation } from "@/hooks/usePriceCalculation";
@@ -42,7 +42,9 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
   const [focusedInput, setFocusedInput] = useState<any>();
-  
+  const minDate = moment();
+  const maxDate = moment().add(614, "days");
+
   const {
     totalPrice,
     nightsPrice,
@@ -82,6 +84,13 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
   };
 
   const checkDateBlocked = (date: moment.Moment) => {
+    // Block dates after the maxDate
+    if (date.isAfter(maxDate, "day")) {
+      return true; // Block the date
+    }
+    if (date.isBefore(minDate, "day")) {
+      return true;
+    }
     return bookedDates.some(({ start, end }) => {
       const startMoment = moment(start, "YYYY-MM-DD");
       const endMoment = moment(end, "YYYY-MM-DD");
@@ -165,7 +174,13 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
         <Typography variant="body1" textAlign="center" mb={2}>
           Our 3-bedroom home sleeps up to a maximum of 12 guests
         </Typography>
-        <div style={{ justifyContent: "center", textAlign: "center", marginBottom: "15px" }}>
+        <div
+          style={{
+            justifyContent: "center",
+            textAlign: "center",
+            marginBottom: "15px",
+          }}
+        >
           <Typography variant="subtitle1">Select your dates:</Typography>
           <DateRangePicker
             startDate={startDate}
@@ -181,6 +196,8 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
             onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
             isDayBlocked={checkDateBlocked}
             renderDayContents={renderDayContents}
+            minDate={minDate}
+            maxDate={maxDate}
           />
         </div>
         <NumberSelect
