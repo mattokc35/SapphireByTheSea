@@ -6,6 +6,7 @@ interface PriceTooltipProps {
   numberOfNights: number;
   nightsPrice: number;
   hasDiscount: boolean;
+  petFee: number;
   discountedNightsPrice: number;
   discountPercentage: number;
   promoCodeDiscountPercentage: number;
@@ -19,6 +20,7 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
   numberOfNights,
   nightsPrice,
   hasDiscount,
+  petFee,
   discountedNightsPrice,
   discountPercentage,
   promoCodeDiscountPercentage,
@@ -45,34 +47,73 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
           title={
             <Box
               sx={{
-                p: 2,
+                p: 3,
                 bgcolor: "#FFF",
-                color: "#0f52ba",
-                borderRadius: 2,
+                color: "#333",
+                borderRadius: 3,
                 boxShadow: 3,
+                width: 300,
+                fontFamily: "'Roboto', sans-serif",
               }}
             >
-              <Typography variant="body2">
-                {numberOfNights} nights price: ${nightsPrice.toFixed(2)} <br />
-                {hasDiscount && (
-                  <div>
-                    {`Length of Stay Discount Price: $${discountedNightsPrice} (${discountPercentage}% off for ${numberOfNights} nights)`}
-                  </div>
-                )}
-                {promoCode && promoCodeDiscountPercentage > 0 && (
-                  <div>
-                    {`Promo Code: ${promoCodeDiscountPercentage}% off for ${promoCode}`}
-                  </div>
-                )}
-                {promoCode && (
-                  <div>
-                    {`Promo Code Discount Price: $${promoCodeDiscountPrice}`}
-                  </div>
-                )}
-                <div>Cleaning Fee: $230</div>
-                <div>Tax: ${tax.toFixed(2)}</div>
-                <div>Total Price: ${totalPrice.toFixed(2)}</div>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                {numberOfNights} nights at ${nightsPrice.toFixed(2)} each
               </Typography>
+
+              {hasDiscount && (
+                <Box sx={{ mt: 1, color: "#0f52ba" }}>
+                  <Typography variant="body2">
+                    Length of Stay Discount:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      ${discountedNightsPrice} ({discountPercentage}% off)
+                    </span>
+                  </Typography>
+                </Box>
+              )}
+
+              {promoCode && promoCodeDiscountPercentage > 0 && (
+                <Box sx={{ mt: 1, color: "#0f52ba" }}>
+                  <Typography variant="body2">
+                    Promo Code: <span style={{ fontWeight: "bold" }}>{promoCode}</span>
+                    {" "}({promoCodeDiscountPercentage}% off)
+                  </Typography>
+                </Box>
+              )}
+
+              {promoCode && (
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="body2">
+                    Promo Code Discount Price:{" "}
+                    <span style={{ fontWeight: "bold" }}>${promoCodeDiscountPrice}</span>
+                  </Typography>
+                </Box>
+              )}
+
+              {petFee > 0 && (
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="body2">
+                    Pet Fee: <span style={{ fontWeight: "bold" }}>${petFee}</span>
+                  </Typography>
+                </Box>
+              )}
+
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="body2">
+                  Cleaning Fee: <span style={{ fontWeight: "bold" }}>$230</span>
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="body2">
+                  Tax: <span style={{ fontWeight: "bold" }}>${tax.toFixed(2)}</span>
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2, fontSize: "1.1rem", fontWeight: "bold", color: "#0f52ba" }}>
+                <Typography variant="body2">
+                  Total Price: <span style={{ fontWeight: "bold" }}>${totalPrice.toFixed(2)}</span>
+                </Typography>
+              </Box>
             </Box>
           }
           arrow
@@ -80,18 +121,25 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
           componentsProps={{
             tooltip: {
               sx: {
+                backgroundColor: "transparent",
                 "& .MuiTooltip-arrow": {
-                  color: "rgba(13, 74, 154, 0.9)",
+                  color: "#FFF",
                 },
               },
             },
           }}
         >
           <span
-            style={{ cursor: "pointer", color: "#0f52ba" }}
+            style={{
+              cursor: "pointer",
+              fontSize: "1rem",
+              color: "#0f52ba",
+              fontWeight: "600",
+              textDecoration: "underline",
+            }}
             onClick={handleTooltipOpen}
           >
-            Hover or click for price details
+            Click for price details
           </span>
         </Tooltip>
       </div>
