@@ -1,4 +1,4 @@
-import { PriceDataGoogleAPI } from "../types/types";
+import { ContractEmailData, PriceDataGoogleAPI } from "../types/types";
 import { loadStripe } from "@stripe/stripe-js";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -10,7 +10,8 @@ const stripePromise = loadStripe(
 const request = async <T>(
   path: string,
   method: string,
-  requestData: any = null
+  requestData: any = null,
+  cache: RequestCache = "default"
 ): Promise<any> => {
   try {
     const options: RequestInit = {
@@ -24,9 +25,9 @@ const request = async <T>(
     if (requestData) {
       options.body = JSON.stringify(requestData);
     }
-
+    console.log(`${BASE_URL}/${path}`);
     const response = await fetch(`${BASE_URL}/${path}`, options);
-
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch ${path}`);
     }
@@ -63,7 +64,7 @@ export const contractStatusRequest = async (requestData: any): Promise<any> => {
 };
 
 export const calendarRequest = async (): Promise<any> => {
-  return await request<any>("calendar-request", "GET");
+  return await request<any>(`booked-dates?t=${Date.now()}`, "GET", null);
 };
 
 export const priceRequest = async (): Promise<any> => {
@@ -72,11 +73,13 @@ export const priceRequest = async (): Promise<any> => {
 
 export const createCheckoutSession = async (
   productName: string,
-  priceAmount: string
+  priceAmount: string,
+  contractEmailDataObject: ContractEmailData
 ): Promise<any> => {
   const input = {
     productName: productName,
     priceAmount: priceAmount,
+    contractEmailDataObject: contractEmailDataObject,
   };
   try {
     const data = await request<any>("create-checkout-session", "POST", input);
