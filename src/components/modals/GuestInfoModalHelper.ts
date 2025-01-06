@@ -1,15 +1,40 @@
-import { ContractEmailData, GuestInfoFormData} from "@/types/types";
-  export const generateProductName = (startDate: string, endDate: string, guestName: string) => {
-    return `Sapphire By The Sea, ${startDate.substr(1, 10)} to ${endDate.substr(1, 10)} for ${guestName}`;
-  };
-  
-  // contractEmailHelpers.ts
+import { ContractEmailData, GuestInfoFormData } from "@/types/types";
+export const generateProductName = (
+  startDate: string,
+  endDate: string,
+  guestName: string
+) => {
+  return `Sapphire By The Sea, ${startDate.substr(1, 10)} to ${endDate.substr(1, 10)} for ${guestName}`;
+};
+
+export const formatDate = (dateString: string): string => {
+  const sanitizedDate = dateString.replace(/\\/g, "").replace(/\"/g, "");
+  return new Date(sanitizedDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+export const resetFormData = (props: {
+  tax: number;
+  discountedNightsPrice: number;
+}) => ({
+  name: "",
+  email: "",
+  phoneNumber: "",
+  comments: "",
+  tax: props.tax,
+  promoCode: "",
+  promoCodeDiscountPercentage: 0,
+  promoCodeDiscountPrice: props.discountedNightsPrice,
+});
 
 export const createContractEmailDataObject = (
-  transactionId: string,
   currentDate: string,
   formData: GuestInfoFormData,
   owners: string,
+  transactionId: string,
   promoCode: string,
   promoCodeDiscountPercentage: number,
   promoCodeDiscountPrice: number,

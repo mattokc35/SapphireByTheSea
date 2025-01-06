@@ -5,22 +5,25 @@ import { Typography, Button } from "@mui/material";
 import PriceTooltip from "../tooltips/PriceTooltip";
 import {
   createContractEmailDataObject,
+  formatDate,
   generateProductName,
+  resetFormData,
 } from "./GuestInfoModalHelper";
 import {
   getCurrentDate,
   calculatePromoCodePrice,
+  formatPhoneNumber,
 } from "../../helpers/helperFunctions";
 import {
   owners,
   checkinTime,
   checkoutTime,
   contractUrl,
+  guestInstructions,
 } from "@/constants/constants";
 import Form from "react-bootstrap/Form";
 import {
   createCheckoutSession,
-  sendContractEmailDataToBackend,
   verifyPromoCode,
   createVerificationSession,
 } from "../../network/networkRequests";
@@ -36,7 +39,6 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
 ) => {
   const form = useRef<HTMLFormElement>(null);
   const recaptcha = useRef<ReCAPTCHA>(null);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [isContractViewed, setIsContractViewed] = useState<boolean | undefined>(
     undefined
   );
@@ -58,7 +60,7 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
   );
   const [totalPrice, setTotalPrice] = useState<number>(props.price);
   const [tax, setTax] = useState<number>(props.tax);
-  const [enableProceedToPayment, setEnableProceedToPayment] = useState(false);
+  const [enableProceedToPayment, setEnableProceedToPayment] = useState(true);
 
   useEffect(() => {
     const promoCodePriceArray = calculatePromoCodePrice(
@@ -77,12 +79,8 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
       isPromoCodeValid === true &&
       checkRecaptcha() &&
       isContractViewed === true;
-    setEnableProceedToPayment(canProceedToPayment);
+    //setEnableProceedToPayment(canProceedToPayment);
   }, [isPromoCodeValid, captchaValue, isContractViewed]);
-
-  const toggleTooltip = () => {
-    setShowTooltip(!showTooltip);
-  };
 
   const [formData, setFormData] = useState<GuestInfoFormData>({
     name: "",
@@ -90,11 +88,16 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
     phoneNumber: "",
     comments: "",
     adults: props.adults,
-    children: props.childrenSelected,
+    children: props.children,
     price: totalPrice,
     tax: tax,
     pets: props.pets,
     infants: props.infants,
+    startDate: formatDate(props.startDate),
+    endDate: formatDate(props.endDate),
+    promoCode: promoCode,
+    promoCodeDiscountPercentage: promoCodeDiscountPercentage,
+    promoCodeDiscountPrice: promoCodeDiscountPrice,
     nightsPrice: props.nightsPrice,
     numberOfNights: props.numberOfNights,
     discountedNightsPrice: props.discountedNightsPrice,
@@ -135,6 +138,18 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
   };
 
   const handleInquirySubmission = async (form: HTMLFormElement) => {
+    // Format the phone number
+    const formattedPhoneNumber = formatPhoneNumber(formData.phoneNumber);
+    const updatedFormData = {
+      ...formData,
+      phoneNumber: formattedPhoneNumber,
+      promoCodeDiscountPrice: promoCodeDiscountPrice,
+      promoCodeDiscountPercentage: promoCodeDiscountPercentage,
+      tax: tax,
+      price: totalPrice,
+      petFee: props.petFee || 0,
+      promoCode: promoCode,
+    };
     if (!checkRecaptcha()) return;
     const isValid = validateForm(form);
     if (!isValid) return;
@@ -142,11 +157,24 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_1!,
-        formData as any,
+        updatedFormData as any,
         process.env.NEXT_PUBLIC_EMAIL_JS_KEY!
       );
       setIsInquiryValid(true);
       setValidated(true);
+      setTimeout(() => {
+        // Clear the form
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          ...resetFormData(props),
+        }));
+        setPromoCode("");
+        setPromoCodeDiscountPercentage(0);
+        setPromoCodeDiscountPrice(props.discountedNightsPrice);
+        setIsPromoCodeValid(undefined);
+        setShowCaptchaValidationMessage(false);
+        recaptcha.current?.reset();
+      }, 2000);
     } catch (error: any) {
       console.error(error);
       setIsInquiryValid(false);
@@ -173,31 +201,30 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
         formData.name
       );
       const formattedPrice = (totalPrice * 100).toFixed(4);
-
-      const response = await createCheckoutSession(productName, formattedPrice);
-
+      const contractEmailDataObject = createContractEmailDataObject(
+        currentDate,
+        formData,
+        owners,
+        promoCode,
+        promoCodeDiscountPercentage,
+        promoCodeDiscountPrice,
+        props.startDate,
+        props.endDate,
+        totalPrice,
+        props.petFee,
+        checkinTime,
+        checkoutTime,
+        props.discountPercentage,
+        props.averageNightlyPrice,
+        props.numberOfNights,
+        props.adults + props.children + props.infants
+      );
+      const response = await createCheckoutSession(
+        productName,
+        formattedPrice,
+        contractEmailDataObject
+      );
       if (response) {
-        const contractEmailDataObject = createContractEmailDataObject(
-          response.transactionId,
-          currentDate,
-          formData,
-          owners,
-          promoCode,
-          promoCodeDiscountPercentage,
-          promoCodeDiscountPrice,
-          props.startDate,
-          props.endDate,
-          totalPrice,
-          props.petFee,
-          checkinTime,
-          checkoutTime,
-          props.discountPercentage,
-          props.averageNightlyPrice,
-          props.numberOfNights,
-          props.adults + props.childrenSelected + props.infants
-        );
-
-        await sendContractEmailDataToBackend(contractEmailDataObject);
         window.location.href = response.url;
       } else {
         console.error("Failed to create checkout session");
@@ -243,35 +270,33 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
         </Typography>
         <Typography variant="body1">
           <strong>Adults:</strong> {props.adults} <strong>Children:</strong>{" "}
-          {props.childrenSelected} <strong>Infants:</strong> {props.infants}{" "}
+          {props.children} <strong>Infants:</strong> {props.infants}{" "}
           <strong>Pets:</strong> {props.pets}
         </Typography>
         <Typography>
           <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
         </Typography>
 
-            <PriceTooltip
-              numberOfNights={props.numberOfNights}
-              nightsPrice={props.nightsPrice}
-              hasDiscount={props.hasDiscount}
-              discountedNightsPrice={props.discountedNightsPrice}
-              discountPercentage={props.discountPercentage}
-              promoCodeDiscountPercentage={promoCodeDiscountPercentage}
-              promoCodeDiscountPrice={promoCodeDiscountPrice}
-              totalPrice={totalPrice}
-              tax={tax}
-              promoCode={promoCode}
-              petFee={props.petFee}
-            />
+        <PriceTooltip
+          numberOfNights={props.numberOfNights}
+          nightsPrice={props.nightsPrice}
+          hasDiscount={props.hasDiscount}
+          discountedNightsPrice={props.discountedNightsPrice}
+          discountPercentage={props.discountPercentage}
+          promoCodeDiscountPercentage={promoCodeDiscountPercentage}
+          petFee={props.petFee}
+          promoCodeDiscountPrice={promoCodeDiscountPrice}
+          totalPrice={totalPrice}
+          tax={tax}
+          promoCode={promoCode}
+        />
       </div>
       <Typography
         variant="body1"
         className="guest-instructions"
         sx={{ marginBottom: "10px" }}
       >
-        Please fill out this form to send us an inquiry! If you would like to
-        proceed to payment, please complete the ID Verification and Contract
-        Viewing steps first, then a payment option will be available.
+        {guestInstructions}
       </Typography>
       <Form validated={validated} onSubmit={handleSubmitInquiry} ref={form}>
         <Form.Group
@@ -364,6 +389,7 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
           </Form.Group>
         </Form.Group>
         <ReCAPTCHA
+          onChange={checkRecaptcha}
           ref={recaptcha}
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
         />
@@ -406,7 +432,7 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
             className="custom-primary-button"
             variant="contained"
             sx={{ background: "#0f52ba" }}
-            disabled={!enableProceedToPayment}
+            disabled={enableProceedToPayment}
           >
             Book Now
           </Button>
