@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, Typography, ClickAwayListener } from "@mui/material";
+import Divider from "../divider/Divider";
 
 interface PriceTooltipProps {
   numberOfNights: number;
   nightsPrice: number;
+  promoCodePriceAmount: number;
   hasDiscount: boolean;
   petFee: number;
-  discountedNightsPrice: number;
-  discountPercentage: number;
+  discountedNightsPrice?: number;
+  discountPercentage?: number;
   promoCodeDiscountPercentage: number;
-  promoCodeDiscountPrice: number;
+  promoCodeDiscountPrice?: number;
   totalPrice: number;
   tax: number;
   promoCode: string;
+  discountedNightsAmount: number;
+  totalBeforeTax: number;
 }
 
 const PriceTooltip: React.FC<PriceTooltipProps> = ({
@@ -21,13 +25,13 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
   nightsPrice,
   hasDiscount,
   petFee,
-  discountedNightsPrice,
-  discountPercentage,
   promoCodeDiscountPercentage,
-  promoCodeDiscountPrice,
+  promoCodePriceAmount,
   totalPrice,
   tax,
   promoCode,
+  discountedNightsAmount,
+  totalBeforeTax,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -56,62 +60,76 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
                 fontFamily: "'Roboto', sans-serif",
               }}
             >
-              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                {numberOfNights} nights at ${nightsPrice.toFixed(2)} each
+              <Typography variant="body2">
+                ${(nightsPrice / numberOfNights).toFixed(2)} x {numberOfNights}{" "}
+                nights:
+                <span style={{ fontWeight: "bold" }}> ${nightsPrice}</span>
               </Typography>
 
               {hasDiscount && (
-                <Box sx={{ mt: 1, color: "#0f52ba" }}>
+                <Box>
                   <Typography variant="body2">
                     Length of Stay Discount:{" "}
                     <span style={{ fontWeight: "bold" }}>
-                      ${discountedNightsPrice} ({discountPercentage}% off)
+                      -${discountedNightsAmount.toFixed(2)}
                     </span>
                   </Typography>
                 </Box>
               )}
 
-              {promoCode && promoCodeDiscountPercentage > 0 && (
-                <Box sx={{ mt: 1, color: "#0f52ba" }}>
-                  <Typography variant="body2">
-                    Promo Code: <span style={{ fontWeight: "bold" }}>{promoCode}</span>
-                    {" "}({promoCodeDiscountPercentage}% off)
-                  </Typography>
-                </Box>
-              )}
-
-              {promoCode && (
-                <Box sx={{ mt: 1 }}>
-                  <Typography variant="body2">
-                    Promo Code Discount Price:{" "}
-                    <span style={{ fontWeight: "bold" }}>${promoCodeDiscountPrice}</span>
-                  </Typography>
-                </Box>
-              )}
-
               {petFee > 0 && (
-                <Box sx={{ mt: 1 }}>
+                <Box>
                   <Typography variant="body2">
-                    Pet Fee: <span style={{ fontWeight: "bold" }}>${petFee}</span>
+                    Pet Fee:{" "}
+                    <span style={{ fontWeight: "bold" }}>${petFee}</span>
                   </Typography>
                 </Box>
               )}
 
-              <Box sx={{ mt: 1 }}>
+              <Box>
                 <Typography variant="body2">
                   Cleaning Fee: <span style={{ fontWeight: "bold" }}>$230</span>
                 </Typography>
               </Box>
+              {promoCode && promoCodeDiscountPercentage > 0 && (
+                <Box sx={{ color: "#0f52ba" }}>
+                  <Typography variant="body2">
+                    Promo Code Discount:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      -${promoCodePriceAmount}
+                    </span>
+                  </Typography>
+                </Box>
+              )}
 
-              <Box sx={{ mt: 1 }}>
+              <Typography variant="body2">
+                Total Before Tax:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  ${totalBeforeTax.toFixed(2)}
+                </span>
+              </Typography>
+
+              <Box>
                 <Typography variant="body2">
-                  Tax: <span style={{ fontWeight: "bold" }}>${tax.toFixed(2)}</span>
+                  Tax:{" "}
+                  <span style={{ fontWeight: "bold" }}>${tax.toFixed(2)}</span>
                 </Typography>
               </Box>
-
-              <Box sx={{ mt: 2, fontSize: "1.1rem", fontWeight: "bold", color: "#0f52ba" }}>
+              <Box>
                 <Typography variant="body2">
-                  Total Price: <span style={{ fontWeight: "bold" }}>${totalPrice.toFixed(2)}</span>
+                  ----------------------------------------------------
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                }}
+              >
+                <Typography variant="body2">
+                  <span style={{ fontWeight: "bold" }}>
+                    Grand Total: ${totalPrice.toFixed(2)}
+                  </span>
                 </Typography>
               </Box>
             </Box>
@@ -132,7 +150,7 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
           <span
             style={{
               cursor: "pointer",
-              fontSize: "1rem",
+              fontSize: "0.9rem",
               color: "#0f52ba",
               fontWeight: "600",
               textDecoration: "underline",

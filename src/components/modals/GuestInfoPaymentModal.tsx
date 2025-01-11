@@ -59,8 +59,14 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
     props.discountedNightsPrice
   );
   const [totalPrice, setTotalPrice] = useState<number>(props.price);
+  const [totalBeforeTax, setTotalBeforeTax] = useState<number>(
+    props.totalBeforeTax
+  );
   const [tax, setTax] = useState<number>(props.tax);
   const [enableProceedToPayment, setEnableProceedToPayment] = useState(true);
+  const [promoCodePriceAmount, setPromoCodePriceAmount] = useState<number>(0);
+  const formattedStartDate = formatDate(props.startDate.substr(1, 10));
+  const formattedEndDate = formatDate(props.endDate.substr(1, 10));
 
   useEffect(() => {
     const promoCodePriceArray = calculatePromoCodePrice(
@@ -72,6 +78,8 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
     setPromoCodeDiscountPrice(promoCodePriceArray[0]);
     setTotalPrice(promoCodePriceArray[1]);
     setTax(promoCodePriceArray[2]);
+    setPromoCodePriceAmount(promoCodePriceArray[3]);
+    setTotalBeforeTax(promoCodePriceArray[4]);
   }, [promoCodeDiscountPercentage]);
 
   useEffect(() => {
@@ -88,13 +96,13 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
     phoneNumber: "",
     comments: "",
     adults: props.adults,
-    children: props.children,
+    children: props.selectedChildren,
     price: totalPrice,
     tax: tax,
     pets: props.pets,
     infants: props.infants,
-    startDate: formatDate(props.startDate),
-    endDate: formatDate(props.endDate),
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
     promoCode: promoCode,
     promoCodeDiscountPercentage: promoCodeDiscountPercentage,
     promoCodeDiscountPrice: promoCodeDiscountPrice,
@@ -217,7 +225,7 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
         props.discountPercentage,
         props.averageNightlyPrice,
         props.numberOfNights,
-        props.adults + props.children + props.infants
+        props.adults + props.selectedChildren + props.infants
       );
       const response = await createCheckoutSession(
         productName,
@@ -265,12 +273,12 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
     <>
       <div className="checkout-info-container">
         <Typography variant="body1">
-          <strong>Reservation Dates:</strong> {props.startDate.substr(1, 10)} to{" "}
-          {props.endDate.substr(1, 10)}
+          <strong>Reservation Dates:</strong> {formattedStartDate} to{" "}
+          {formattedEndDate}
         </Typography>
         <Typography variant="body1">
           <strong>Adults:</strong> {props.adults} <strong>Children:</strong>{" "}
-          {props.children} <strong>Infants:</strong> {props.infants}{" "}
+          {props.selectedChildren} <strong>Infants:</strong> {props.infants}{" "}
           <strong>Pets:</strong> {props.pets}
         </Typography>
         <Typography>
@@ -281,12 +289,12 @@ const GuestInfoPaymentPageModal: React.FC<GuestInfoPaymentPageModalProps> = (
           numberOfNights={props.numberOfNights}
           nightsPrice={props.nightsPrice}
           hasDiscount={props.hasDiscount}
-          discountedNightsPrice={props.discountedNightsPrice}
-          discountPercentage={props.discountPercentage}
+          discountedNightsAmount={props.discountedNightsAmount}
           promoCodeDiscountPercentage={promoCodeDiscountPercentage}
           petFee={props.petFee}
-          promoCodeDiscountPrice={promoCodeDiscountPrice}
+          totalBeforeTax={totalBeforeTax}
           totalPrice={totalPrice}
+          promoCodePriceAmount={promoCodePriceAmount}
           tax={tax}
           promoCode={promoCode}
         />

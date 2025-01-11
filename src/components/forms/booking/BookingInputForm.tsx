@@ -55,6 +55,8 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
     discountedNightsPrice,
     averageNightlyPrice,
     numberOfNights,
+    discountedNightsAmount,
+    totalBeforeTax
   } = usePriceCalculation(startDate, endDate, selectValues, priceArray);
 
   useEffect(() => {
@@ -146,16 +148,18 @@ function BookingInputForm({ bookedDates, priceArray }: BookingInputFormProps) {
             startDate={JSON.stringify(startDate)}
             endDate={JSON.stringify(endDate)}
             adults={selectValues.selectedAdults}
-            childrenSelected={selectValues.selectedChildren}
+            selectedChildren={selectValues.selectedChildren}
             infants={selectValues.selectedInfants}
             pets={selectValues.selectedPets}
             price={parseFloat(totalPrice.toFixed(2))}
             nightsPrice={nightsPrice}
             numberOfNights={numberOfNights}
+            totalBeforeTax={totalBeforeTax}
             hasDiscount={hasDiscount}
             discountPercentage={discountPercentage}
             discountedNightsPrice={discountedNightsPrice}
             averageNightlyPrice={averageNightlyPrice}
+            discountedNightsAmount={discountedNightsAmount}
             tax={parseFloat((Math.round(tax * 100) / 100).toFixed(2))}
             petFee={petFee}
           />

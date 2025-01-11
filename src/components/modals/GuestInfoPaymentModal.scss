@@ -1,34 +1,31 @@
 .checkout-info-container {
-  background-color: #f9f9f9; /* Light background for contrast */
-  border-radius: 10px; /* Rounded corners */
-  padding: 20px; /* Add padding for spacing */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  margin: 20px; /* Spacing below the container */
-  text-align: center; /* Center align all text */
+  padding: 20px; 
+  margin: 20px;
+  text-align: center; 
 }
 
 .checkout-info-title {
-  font-size: 1.5rem; /* Larger title font size */
-  margin-bottom: 10px; /* Space below the title */
-  color: #333; /* Dark text color */
+  font-size: 1.5rem; 
+  margin-bottom: 10px;
+  color: #333; 
 }
 
 .guest-instructions {
-  font-size: 1rem; /* Standard font size for consistency */
-  color: #555; /* Slightly lighter text color */
-  margin-bottom: 10px; /* Space below each element */
+  font-size: 1rem; 
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .total-price-text {
-  font-size: 1.2rem; /* Slightly larger font for price */
-  font-weight: bold; /* Bold text for emphasis */
-  color: #d9534f; /* Distinct color for total price */
+  font-size: 1.2rem;
+  font-weight: bold; 
+  color: #d9534f;
 }
 
 .price-breakdown {
-  color: #0f52ba; /* Standard color for links */
-  cursor: pointer; /* Pointer cursor on hover */
-  text-decoration: underline; /* Underlined text */
+  color: #0f52ba; 
+  cursor: pointer; 
+  text-decoration: underline; 
 }
 
 .price-breakdown:hover {
@@ -65,5 +62,5 @@
 
 .MuiTableCell-body {
   padding: 16px;
-  text-align: center !important; /* Ensure table cells are centered */
+  text-align: center
 }

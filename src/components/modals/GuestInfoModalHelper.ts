@@ -13,6 +13,7 @@ export const formatDate = (dateString: string): string => {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC"
   });
 };
 
@@ -34,7 +35,6 @@ export const createContractEmailDataObject = (
   currentDate: string,
   formData: GuestInfoFormData,
   owners: string,
-  transactionId: string,
   promoCode: string,
   promoCodeDiscountPercentage: number,
   promoCodeDiscountPrice: number,
@@ -50,7 +50,6 @@ export const createContractEmailDataObject = (
   totalGuests: number
 ): ContractEmailData => {
   return {
-    transactionId,
     ...formData,
     Owners: owners,
     promoCode,
