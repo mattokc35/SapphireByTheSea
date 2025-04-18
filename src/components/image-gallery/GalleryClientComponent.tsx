@@ -41,7 +41,6 @@ const GalleryClientComponent: React.FC<GalleryClientComponentProps> = ({
     setModalIsOpen(false);
   };
 
-  // Check if the screen size is mobile
   const isMobile = useMediaQuery("(max-width:600px)");
 
   // Slider settings

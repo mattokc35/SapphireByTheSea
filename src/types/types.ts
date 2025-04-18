@@ -1,16 +1,13 @@
-// Define types for the options objects
 export type Option = {
   value: number;
   label: string;
 };
 
-// Define types for the image objects
 export type Image = {
   caption: string;
   src: string;
 };
 
-// Define type for review objects
 export type Review = {
   text: string;
   rating: number;
@@ -23,7 +20,6 @@ export interface BookedDate {
   end: Date;
 }
 
-// Define type for host bio
 export type HostBio = string;
 
 export interface GuestInfoPaymentPageModalProps {

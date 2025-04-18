@@ -11,23 +11,30 @@ const request = async <T>(
   path: string,
   method: string,
   requestData: any = null,
-  cache: RequestCache = "default"
+  revalidate: boolean = false
 ): Promise<any> => {
   try {
-    const options: RequestInit = {
-      method: method,
+    const options: RequestInit & { next?: { revalidate?: number } } = {
+      method,
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
     };
-    console.log(BASE_URL);
+
+    if (revalidate) {
+      options.next = { revalidate: 300 };
+    } else {
+      options.cache = "no-store";
+    }
+
     if (requestData) {
       options.body = JSON.stringify(requestData);
     }
-    console.log(`${BASE_URL}/${path}`);
-    const response = await fetch(`${BASE_URL}/${path}`, options);
-    
+
+    const url = `${BASE_URL}/${path}`;
+    const response = await fetch(url, options);
+
     if (!response.ok) {
       throw new Error(`Failed to fetch ${path}`);
     }
@@ -145,7 +152,7 @@ export const fetchPricesFromGoogleSheets = async (): Promise<
   PriceDataGoogleAPI[]
 > => {
   try {
-    const data = await request<any>("prices-google-sheets", "GET");
+    const data = await request<any>("prices-google-sheets", "GET", null, true);
     const transformedData: PriceDataGoogleAPI[] = data.prices.map(
       (item: any) => ({
         date: item.date,
