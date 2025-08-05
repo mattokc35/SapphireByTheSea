@@ -507,6 +507,42 @@ const amenitiesData = {
 
 const reviews: Review[] = [
   {
+    text: "We had a great stay at this home! Everything was very clean and well maintained. The host was responsive and easy to communicate with throughout our visit. The amenities were a thoughtful touch — from shampoo and conditioner to body wash, a Nintendo Switch, and a great selection of board games. It’s clear the host put effort into creating a welcoming and comfortable space. Would definitely stay here again!",
+    rating: 5,
+    name: "Bryan",
+    date: "July 2025",
+  },
+  {
+    text: "The house is beautiful, clean, has everything a family would need for a beach vacation! Kitchen is spacious, Plenty of room, the space downstairs has everything from fire pit, hot tub, games for kids, bar area. Space for vehicles or golf carts. Shirt walk to private beach access. Very nice beach house.",
+    rating: 5,
+    name: "Susan",
+    date: "May 2025",
+  },
+  {
+    text: "Wonderful place to stay, Especially for the kids lots for them to do!",
+    rating: 5,
+    name: "Chris",
+    date: "April 2025",
+  },
+  {
+    text: "We had a wonderful time at Sapphire by the Sea!  It was a short walk to the beach,  had a ton of games for the kids, and was comfortable and clean.  If we ever come back to Crystal Beach, we will stay here again.",
+    rating: 5,
+    name: "Sarah",
+    date: "April 2025",
+  },
+  {
+    text: "We really enjoyed our stay at this beach house! The hosts were very communicative and easy to reach, making the experience even better. The house was fantastic, and the hot tub/Jacuzzi was a great bonus. Everything was clean and well-maintained. We definitely recommend this stay!",
+    rating: 5,
+    name: "Tommy",
+    date: "March 2025",
+  },
+  {
+    text: "Great stay! We chose this Airbnb because it was very family friendly. They had many games inside and out to play. Also a Switch game console already installed. Enjoyed crabbing, visiting Anahuac Bird Nature park and shopping on the Galveston Strand. Location was very convenient to our activities. Would recommend a golf cart rental. We would stay again.",
+    rating: 5,
+    name: "Rachel",
+    date: "December 2024",
+  },
+  {
     text: "Our family had a great time! We had 2 big beach days and then just hung out at the house playing Nintendo switch! Great communication and quick responses!",
     rating: 5,
     name: "Erika",

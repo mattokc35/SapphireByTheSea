@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { BookedDate } from "../types/types";
 import { calendarRequest } from "../network/networkRequests";
 
 export const useCalendar = () => {
-  const [bookedDates, setBookedDates] = useState([]);
+  const [bookedDates, setBookedDates] = useState<BookedDate[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

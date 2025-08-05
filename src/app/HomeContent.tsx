@@ -22,7 +22,7 @@ export default function HomeContent() {
       <div className={styles.siteContent} role="main">
         <div className={styles.verticalColumn}>
           <div className={styles.introImgSection}>
-          <Divider showLines={true} title="Welcome to Sapphire By The Sea" />
+            <Divider showLines={true} title="Welcome to Sapphire By The Sea" />
             <Typography
               variant="body1"
               paragraph
@@ -105,7 +105,7 @@ export default function HomeContent() {
 
             <LocationMap />
             <Divider title="About The Host" />
-            <About/>
+            <About />
 
             <Divider title="Contact Us Today!" />
             <Box mb={1} sx={{ textAlign: "center" }}>
@@ -124,10 +124,18 @@ export default function HomeContent() {
                 aria-label="Description of the booking process"
               >
                 Secure your stay at Sapphire by the Sea and enjoy the beauty of
-                the beach just moments away. Book your dream vacation or contact us below:
+                the beach just moments away. Book your dream vacation or contact
+                us below:
               </Typography>
               <Box
-                sx={{ textAlign: "center", marginBottom: 3, marginTop: 3, gap: 4, display: "flex", justifyContent: "center" }}
+                sx={{
+                  textAlign: "center",
+                  marginBottom: 3,
+                  marginTop: 3,
+                  gap: 4,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
                 aria-label="Booking and contact options"
               >
                 <MuiLink href="/book" underline="hover">
@@ -164,9 +172,7 @@ export default function HomeContent() {
                     Contact Us
                   </Button>
                 </MuiLink>
-               
               </Box>
-             
             </Box>
           </div>
         </div>

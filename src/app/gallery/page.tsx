@@ -1,4 +1,3 @@
-// app/gallery/page.tsx (Server Component)
 import React from "react";
 import { Container, Box, Grid } from "@mui/material";
 import GalleryClientComponent from "@/components/image-gallery/GalleryClientComponent";
@@ -20,9 +19,9 @@ const Gallery: React.FC = () => {
         }}
       >
         <Grid container spacing={2} justifyContent="center">
-          {carouselImages.slice(0, 24).map((image, index) => (
-            <Grid item xs={12} sm={8} md={4} key={index}>
-              <GalleryClientComponent image={image} index={index} />
+          {carouselImages.slice(0, 60).map((image, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <GalleryClientComponent images={carouselImages} image={image} index={index} />
             </Grid>
           ))}
         </Grid>

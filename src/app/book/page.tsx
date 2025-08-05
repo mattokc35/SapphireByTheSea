@@ -7,26 +7,16 @@ import {
   fetchPricesFromGoogleSheets,
 } from "@/network/networkRequests";
 import { PriceDataGoogleAPI, BookedDate } from "@/types/types";
+import { useCalendar } from "@/hooks/useCalendar";
 
 // Force the component to be treated as dynamic
 export const dynamic = "force-dynamic";
 
 export default async function BookPage() {
-  let bookedDates: BookedDate[] = [];
   let priceArray: PriceDataGoogleAPI[] = [];
   let loadingError = null;
 
-  try {
-    const bookedDatesResponse = await calendarRequest();
-    if (bookedDatesResponse && bookedDatesResponse.BookedRanges) {
-      bookedDates = bookedDatesResponse.BookedRanges;
-    } else {
-      throw new Error("BookedRanges is not available.");
-    }
-  } catch (error) {
-    console.error("Error fetching calendar data:", error);
-    loadingError = "Failed to fetch calendar data.";
-  }
+  const { bookedDates } = useCalendar();
 
   try {
     const priceDataResponse = await fetchPricesFromGoogleSheets();
@@ -43,7 +33,7 @@ export default async function BookPage() {
   const isLoading = !bookedDates.length || !priceArray.length;
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: "100px", marginBottom: "50px"}}>
+    <Container maxWidth="md" sx={{ marginTop: "100px", marginBottom: "50px" }}>
       <Paper elevation={3} sx={{ padding: 3 }}>
         <Typography variant="h6" gutterBottom color="#0d4a9a">
           Book Your Stay

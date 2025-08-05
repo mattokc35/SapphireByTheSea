@@ -9,8 +9,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Importing ArrowBack icon
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // Importing ArrowForward icon
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -43,7 +43,6 @@ const GalleryClientComponent: React.FC<GalleryClientComponentProps> = ({
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  // Slider settings
   const settings = {
     dots: false,
     infinite: true,

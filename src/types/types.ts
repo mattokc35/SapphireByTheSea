@@ -117,6 +117,8 @@ export interface GuestInfoPaymentPageModalProps {
     phoneNumber: string;
     comments: string;
     adults: number;
+    startDate: string;
+    endDate: string;
     children: number;
     price: number;
     tax: number;
@@ -124,5 +126,8 @@ export interface GuestInfoPaymentPageModalProps {
     infants: number;
     nightsPrice: number;
     numberOfNights: number;
+    promoCodeDiscountPercentage: number;
+    promoCodeDiscountPrice: number;
     discountedNightsPrice: number;
+    promoCode: string,
   }

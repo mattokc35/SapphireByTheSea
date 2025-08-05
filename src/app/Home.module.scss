@@ -1,19 +1,17 @@
-// General styling for the site content
 .siteContent {
-  width: auto; // Full width layout
-  display: flex; // Enable flexbox
-  flex-direction: column; // Arrange items in a column
-  align-items: center; // Center-align items horizontally
-  justify-content: flex-start; // Start aligning items from the top
-  padding: 10px; // Add padding for spacing
+  width: auto; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: flex-start; 
+  padding: 10px; 
 }
 
-// Vertical column layout
 .verticalColumn {
-  display: flex; // Enable flexbox
-  flex-direction: column; // Stack items vertically
-  align-items: center; // Center items horizontally
-  width: 100%; // Full width
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  width: 100%; 
 }
 
 // Section styles
@@ -22,53 +20,48 @@
 .reviewsSection,
 .aboutSection,
 .contactForm {
-  width: 100%; // Full width for sections
+  width: 100%; 
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px; // Space between sections
+  margin-bottom: 20px;
 }
 
-// Divider styles
 .divider {
-  width: 100%; // Full width
-  height: 2px; // Divider height
-  background-color: #ccc; // Divider color
-  margin: 20px 0; // Vertical margins
+  width: 100%;
+  height: 2px; 
+  background-color: #ccc;
+  margin: 20px 0;
 }
 
-// Review section styles
 .reviewsCarousel {
-  width: 100%; // Full width for carousel
-  margin: 20px 0; // Space above and below
+  width: 100%;
+  margin: 20px 0; 
 }
 
-// Booking section style
 .bookingSection {
-  justify-content: center; // Center the booking form
-  width: 100%; // Full width
+  justify-content: center;
+  width: 100%;
 }
 
 // Contact form style
 .contactForm {
-  justify-content: center; // Center the contact form
-  width: 100%; // Full width
+  justify-content: center; 
+  width: 100%; 
 }
 
-// About section style
 .aboutSection {
-  width: 100%; // Full width for about section
+  width: 100%;
 }
 
-// Image gallery style
 .imageGallery {
-  width: 100%; // Full width for image gallery
+  width: 100%;
   margin: 20px 0; // Space around the gallery
 }
 
 // YouTube embed style
 .videoSection {
-  width: 100%; // Full width for video section
-  margin: 20px 0; // Space around the video
+  width: 100%; 
+  margin: 20px 0; 
 }
 
 .introImgSection {
@@ -76,11 +69,11 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 100%; // Ensure the section takes full width
+  width: 100%; 
 
   h4 {
-    width: 80%; // Adjust this value as needed
-    margin: 20px auto; // Center the text within the section
+    width: 80%; 
+    margin: 20px auto; 
     text-align: center;
   }
 }

@@ -1,89 +1,122 @@
 const checkDiscount = (
   numNights: number,
   nightsPrice: number
-): [number, boolean, number] => {
+): [number, boolean, number, number] => {
   let discountPercentage: number = 0;
   let hasDiscount: boolean = false;
+  let discountAmount: number = 0;
   let discountedPrice: number = nightsPrice;
 
   if (numNights >= 4 && numNights < 5) {
-    discountPercentage = 3;
+    discountPercentage = 2;
     hasDiscount = true;
   } else if (numNights >= 5 && numNights < 7) {
-    discountPercentage = 5;
+    discountPercentage = 3;
     hasDiscount = true;
   } else if (numNights >= 7 && numNights < 28) {
-    discountPercentage = 9;
+    discountPercentage = 8;
     hasDiscount = true;
   } else if (numNights >= 28) {
     discountPercentage = 30;
     hasDiscount = true;
   }
 
+  discountAmount = nightsPrice * (discountPercentage / 100);
+
   if (hasDiscount) {
-    discountedPrice -= nightsPrice * (discountPercentage / 100);
+    discountedPrice -= discountAmount;
   }
 
-  return [discountPercentage, hasDiscount, discountedPrice];
+  return [discountPercentage, hasDiscount, discountedPrice, discountAmount];
 };
+
+const CLEANING_FEE = 100;
+
+interface PriceCalculationResult {
+  totalPrice: number;
+  nightsPrice: number;
+  tax: number;
+  petFee: number;
+  discountPercentage: number;
+  hasDiscount: boolean;
+  discountedNightsPrice: number;
+  averageNightlyPrice: number;
+  discountedNightsAmount: number;
+  totalBeforeTax: number;
+}
 
 export function calculatePrice(
   startDate: moment.Moment,
   endDate: moment.Moment,
   pets: number,
-  priceArray: any,
+  priceArray: any[],
   numNights: number
-): [number, number, number, number, number, number, boolean, number, number] {
-  let totalPrice: number = 0;
-  let nightsPrice: number = 0;
-  let petFee: number = 0;
+): PriceCalculationResult {
+  let nightsPrice = 0;
 
   for (let m = startDate.clone(); m.isBefore(endDate); m.add(1, "days")) {
-    //find price for date
-    let found = priceArray.findIndex(
-      (element: any) => element.date === m.format("YYYY-MM-DD")
+    const foundPrice = priceArray.find(
+      (element) => element.date === m.format("YYYY-MM-DD")
     );
-    if (found === -1) {
-      return [0, 0, 0, 0, 0, 0, false, 0, 0];
+
+    if (!foundPrice || !foundPrice.price) {
+      return {
+        totalPrice: 0,
+        nightsPrice: 0,
+        tax: 0,
+        petFee: 0,
+        discountPercentage: 0,
+        hasDiscount: false,
+        discountedNightsPrice: 0,
+        averageNightlyPrice: 0,
+        discountedNightsAmount: 0,
+        totalBeforeTax: 0,
+      };
     }
-    const entries: any = Object.entries(priceArray);
-    let foundPrice = JSON.stringify(entries[found][1].price);
-    nightsPrice = nightsPrice + parseInt(foundPrice);
+
+    nightsPrice += Number(foundPrice.price);
   }
 
-  totalPrice += nightsPrice;
-  const averageNightlyPrice: number = nightsPrice / numNights;
+  const averageNightlyPrice = nightsPrice / numNights;
 
-  const [discountPercentage, hasDiscount, discountedPrice] = checkDiscount(
-    numNights,
-    nightsPrice
-  );
+  const [discountPercentage, hasDiscount, discountedPrice, discountedAmount] =
+    checkDiscount(numNights, nightsPrice);
 
-  totalPrice = hasDiscount ? discountedPrice : totalPrice;
+  let totalBeforeTax = hasDiscount ? discountedPrice : nightsPrice;
+  let petFee = pets > 0 ? 150 : 0;
 
-  if (pets > 0) {
-    totalPrice += 150;
-    petFee += 150;
-  }
+  totalBeforeTax += petFee + CLEANING_FEE;
+  const tax = totalBeforeTax * 0.06;
+  const totalPrice = totalBeforeTax + tax;
 
-  //cleaning fee
-  totalPrice += 230;
-  const tax: number = totalPrice * 0.06;
-  const cleaningFee: number = 230;
-  totalPrice += tax;
-
-  return [
-    parseFloat(totalPrice.toFixed(2)),
+  return {
+    totalPrice: parseFloat(totalPrice.toFixed(2)),
     nightsPrice,
-    parseFloat(tax.toFixed(2)),
-    cleaningFee,
+    tax: parseFloat(tax.toFixed(2)),
     petFee,
     discountPercentage,
     hasDiscount,
-    parseFloat(discountedPrice.toFixed(2)),
-    parseFloat(averageNightlyPrice.toFixed(2)),
-  ];
+    discountedNightsPrice: parseFloat(discountedPrice.toFixed(2)),
+    averageNightlyPrice: parseFloat(averageNightlyPrice.toFixed(2)),
+    discountedNightsAmount: parseFloat(discountedAmount.toFixed(2)),
+    totalBeforeTax: parseFloat(totalBeforeTax.toFixed(2)),
+  };
 }
+
+export const formatPhoneNumber = (phoneNumber: string): string => {
+  // Remove all non-numeric characters
+  const cleaned = phoneNumber.replace(/\D/g, "");
+
+  if (cleaned.length === 12 && cleaned.startsWith("01")) {
+    // Format for numbers starting with '01' (e.g., 017135988908 => +01 (171) 359-8890)
+    return `+${cleaned.slice(0, 2)} (${cleaned.slice(2, 5)}) ${cleaned.slice(5, 8)}-${cleaned.slice(8)}`;
+  } else if (cleaned.length === 10 && cleaned.startsWith("01")) {
+    // Format for numbers without country code (e.g., 0171359889 => +01 (171) 359-8890)
+    return `+${cleaned.slice(0, 2)} (${cleaned.slice(2, 5)}) ${cleaned.slice(5, 8)}-${cleaned.slice(8)}`;
+  }
+
+  return phoneNumber;
+};
 
 export function getCurrentDate(): string {
   // Create a new Date object to get the current date

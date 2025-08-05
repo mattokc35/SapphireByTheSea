@@ -42,8 +42,11 @@ const ReviewsPage = () => {
         Sapphire By The Sea Guest Reviews
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: "1.5rem" }}>
-        5.0 Star Average Rating on Airbnb and Vrbo with over 75 reviews as of{" "}
-        {new Date().toLocaleString("default", { month: "long", year:"numeric" })}
+        5.0 Star Average Rating on Airbnb and Vrbo with over 95 reviews as of{" "}
+        {new Date().toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        })}
       </Typography>
 
       {/* Displaying cards in a centered column */}
@@ -70,11 +73,11 @@ const ReviewsPage = () => {
               {review.name}
             </Typography>
             <Rating
-              name={`rating-${index}`} 
-              value={review.rating} 
-              readOnly 
-              precision={0.5} 
-              sx={{ marginBottom: "1rem" }} 
+              name={`rating-${index}`}
+              value={review.rating}
+              readOnly
+              precision={0.5}
+              sx={{ marginBottom: "1rem" }}
             />
             <Typography variant="body2" color="text.secondary">
               {review.text}

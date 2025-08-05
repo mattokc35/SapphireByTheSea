@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, Typography, ClickAwayListener } from "@mui/material";
-import Divider from "../divider/Divider";
+import { cleaningFee } from "../../constants/constants";
 
 interface PriceTooltipProps {
   numberOfNights: number;
@@ -88,7 +88,7 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
 
               <Box>
                 <Typography variant="body2">
-                  Cleaning Fee: <span style={{ fontWeight: "bold" }}>$230</span>
+                  Cleaning Fee: <span style={{ fontWeight: "bold" }}>${cleaningFee}</span>
                 </Typography>
               </Box>
               {promoCode && promoCodeDiscountPercentage > 0 && (
@@ -96,7 +96,7 @@ const PriceTooltip: React.FC<PriceTooltipProps> = ({
                   <Typography variant="body2">
                     Promo Code Discount:{" "}
                     <span style={{ fontWeight: "bold" }}>
-                      -${promoCodePriceAmount}
+                      -${promoCodePriceAmount.toFixed(2)}
                     </span>
                   </Typography>
                 </Box>
